@@ -1,0 +1,19 @@
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres-digital-phone-book:
+    container_name: postgres-digital-phone-book
+    image: postgres:latest
+    volumes:
+      - ./postgres/docker-entrypoint-initdb:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: digital_phone_book_db
+      POSTGRES_USER: postgres_username
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_PORT: 5432

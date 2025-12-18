@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path: /api/v.1.0
+
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: digital-phone-book
+  config:
+    import: optional:file:.env[.properties]
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:initial_data.sql
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/digital_phone_book_db
+    username: postgres_username
+    password: postgres_password
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: phone_book
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0
