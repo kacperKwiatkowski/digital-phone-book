@@ -2,7 +2,7 @@ package com.kacperkwiatkowski.digitalphonebook.validator;
 
 import com.kacperkwiatkowski.digitalphonebook.enums.PromptKeys;
 import com.kacperkwiatkowski.digitalphonebook.exception.InvalidPromptException;
-import com.kacperkwiatkowski.digitalphonebook.repository.EntryRepository;
+import com.kacperkwiatkowski.digitalphonebook.repository.RecordRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EntryValidatorTest {
+class RecordValidatorTest {
 
     private static final String NAME_KEY = PromptKeys.NAME.getValue();
     private static final String NUMBER_KEY = PromptKeys.NUMBER.getValue();
@@ -25,10 +25,10 @@ class EntryValidatorTest {
     private static final String EMPTY_VALUE = "";
 
     @Mock
-    private EntryRepository entryRepository;
+    private RecordRepository recordRepository;
 
     @InjectMocks
-    private EntryValidator entryValidator;
+    private RecordValidator recordValidator;
 
     @Test
     void givenAllValuesNullOrEmpty_whenIsOneOfTheDataValuesPresentIsCalled_thenExceptionIsThrown() {
@@ -41,7 +41,7 @@ class EntryValidatorTest {
         // WHEN / THEN
         assertThrows(
                 InvalidPromptException.class,
-                () -> entryValidator.isOneOfTheDataValuesPresent(data)
+                () -> recordValidator.isOneOfTheDataValuesPresent(data)
         );
     }
 
@@ -54,105 +54,105 @@ class EntryValidatorTest {
         );
 
         // WHEN / THEN
-        entryValidator.isOneOfTheDataValuesPresent(data);
+        recordValidator.isOneOfTheDataValuesPresent(data);
     }
 
     @Test
-    void givenEntryDoesNotExistInRepository_whenDoesEntryExistsInRepositoryIsCalled_thenExceptionIsThrown() {
+    void givenRecordDoesNotExistInRepository_whenDoesRecordExistsInRepositoryIsCalled_thenExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.existsByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.existsByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(false);
 
         // WHEN / THEN
         assertThrows(
                 InvalidPromptException.class,
-                () -> entryValidator.doesEntryExistsInRepository(data)
+                () -> recordValidator.doesRecordExistsInRepository(data)
         );
     }
 
     @Test
-    void givenEntryExistsInRepository_whenDoesEntryExistsInRepositoryIsCalled_thenNoExceptionIsThrown() {
+    void givenRecordExistsInRepository_whenDoesRecordExistsInRepositoryIsCalled_thenNoExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.existsByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.existsByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(true);
 
         // WHEN / THEN
-        entryValidator.doesEntryExistsInRepository(data);
+        recordValidator.doesRecordExistsInRepository(data);
     }
 
     @Test
-    void givenEntryAlreadyExists_whenIsEntryNonExistentIsCalled_thenExceptionIsThrown() {
+    void givenRecordAlreadyExists_whenIsRecordNonExistentIsCalled_thenExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.countByNameAndNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.countByNameAndNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(1);
 
         // WHEN / THEN
         assertThrows(
                 InvalidPromptException.class,
-                () -> entryValidator.isEntryNonExistent(data)
+                () -> recordValidator.isRecordNonExistent(data)
         );
     }
 
     @Test
-    void givenEntryDoesNotExist_whenIsEntryNonExistentIsCalled_thenNoExceptionIsThrown() {
+    void givenRecordDoesNotExist_whenIsRecordNonExistentIsCalled_thenNoExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.countByNameAndNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.countByNameAndNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(0);
 
         // WHEN / THEN
-        entryValidator.isEntryNonExistent(data);
+        recordValidator.isRecordNonExistent(data);
     }
 
     @Test
-    void givenEntryIsNotUnique_whenIsEntryUniqueIsCalled_thenExceptionIsThrown() {
+    void givenRecordIsNotUnique_whenIsRecordUniqueIsCalled_thenExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.countByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.countByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(2);
 
         // WHEN / THEN
         assertThrows(
                 InvalidPromptException.class,
-                () -> entryValidator.isEntryUnique(data)
+                () -> recordValidator.isRecordUnique(data)
         );
     }
 
     @Test
-    void givenEntryIsUnique_whenIsEntryUniqueIsCalled_thenNoExceptionIsThrown() {
+    void givenRecordIsUnique_whenIsRecordUniqueIsCalled_thenNoExceptionIsThrown() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
                 NUMBER_KEY, NUMBER_VALUE
         );
 
-        when(entryRepository.countByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
+        when(recordRepository.countByNameOrNumber(NAME_VALUE, NUMBER_VALUE))
                 .thenReturn(1);
 
         // WHEN / THEN
-        entryValidator.isEntryUnique(data);
+        recordValidator.isRecordUnique(data);
     }
 }

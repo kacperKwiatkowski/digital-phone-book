@@ -1,13 +1,13 @@
 package com.kacperkwiatkowski.digitalphonebook.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kacperkwiatkowski.digitalphonebook.dto.EntryDto;
+import com.kacperkwiatkowski.digitalphonebook.dto.RecordDto;
 import com.kacperkwiatkowski.digitalphonebook.dto.PromptRequest;
 import com.kacperkwiatkowski.digitalphonebook.dto.PromptResponse;
 import com.kacperkwiatkowski.digitalphonebook.dto.StructuredCommand;
 import com.kacperkwiatkowski.digitalphonebook.exception.InvalidPromptException;
 import com.kacperkwiatkowski.digitalphonebook.executor.CommandExecutor;
-import com.kacperkwiatkowski.digitalphonebook.service.EntryService;
+import com.kacperkwiatkowski.digitalphonebook.service.RecordService;
 import com.kacperkwiatkowski.digitalphonebook.service.OpenAiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +18,20 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(EntryController.class)
-class EntryControllerTest {
+@WebMvcTest(RecordController.class)
+class RecordControllerTest {
 
 
-    private static final String CONTROLLER_MAPPING = "/entry";
+    private static final String CONTROLLER_MAPPING = "/record";
     private static final String GET_ALL_MAPPING = "/all";
 
-    private static final String PROMPT = "Create entry for Joanna";
+    private static final String PROMPT = "Create record for Joanna";
     private static final String NAME_VALUE = "Joanna";
     private static final String NUMBER_VALUE = "22222222";
 
@@ -46,7 +45,7 @@ class EntryControllerTest {
     private OpenAiService openAiService;
 
     @MockitoBean
-    private EntryService entryService;
+    private RecordService recordService;
 
     @MockitoBean
     private CommandExecutor commandExecutor;
@@ -92,29 +91,29 @@ class EntryControllerTest {
     @Test
     void shouldReturnAllEntriesSuccessfully() throws Exception {
         // GIVEN
-        EntryDto entryDto = EntryDto.builder()
+        RecordDto recordDto = RecordDto.builder()
                 .name(NAME_VALUE)
                 .number(NUMBER_VALUE)
                 .build();
 
-        when(entryService.findAll()).thenReturn(List.of(entryDto));
+        when(recordService.findAll()).thenReturn(List.of(recordDto));
 
         // WHEN / THEN
         mockMvc.perform(get(CONTROLLER_MAPPING + GET_ALL_MAPPING))
                 .andExpect(status().isOk());
 
-        verify(entryService).findAll();
+        verify(recordService).findAll();
     }
 
     @Test
     void shouldReturnEmptyListSuccessfully_whenNoEntriesExist() throws Exception {
         // GIVEN
-        when(entryService.findAll()).thenReturn(List.of());
+        when(recordService.findAll()).thenReturn(List.of());
 
         // WHEN / THEN
         mockMvc.perform(get(CONTROLLER_MAPPING + GET_ALL_MAPPING))
                 .andExpect(status().isOk());
 
-        verify(entryService).findAll();
+        verify(recordService).findAll();
     }
 }

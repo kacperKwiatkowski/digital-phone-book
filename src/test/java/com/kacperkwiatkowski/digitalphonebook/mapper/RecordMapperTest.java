@@ -1,14 +1,14 @@
 package com.kacperkwiatkowski.digitalphonebook.mapper;
 
-import com.kacperkwiatkowski.digitalphonebook.domain.Entry;
-import com.kacperkwiatkowski.digitalphonebook.dto.EntryDto;
+import com.kacperkwiatkowski.digitalphonebook.domain.Record;
+import com.kacperkwiatkowski.digitalphonebook.dto.RecordDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EntryMapperTest {
+class RecordMapperTest {
 
     private static final String NAME_KEY = "name";
     private static final String NUMBER_KEY = "number";
@@ -16,10 +16,10 @@ class EntryMapperTest {
     private static final String NAME_VALUE = "Joanna";
     private static final String NUMBER_VALUE = "22222222";
 
-    private final EntryMapper entryMapper = new EntryMapper();
+    private final RecordMapper recordMapper = new RecordMapper();
 
     @Test
-    void givenValidDataMap_whenFromDtoToEntryIsCalled_thenEntryIsMappedCorrectly() {
+    void givenValidDataMap_whenFromDtoToRecordIsCalled_thenRecordIsMappedCorrectly() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE,
@@ -27,7 +27,7 @@ class EntryMapperTest {
         );
 
         // WHEN
-        Entry result = entryMapper.fromDtoToEntry(data);
+        Record result = recordMapper.fromDtoToRecord(data);
 
         // THEN
         assertNotNull(result);
@@ -36,15 +36,15 @@ class EntryMapperTest {
     }
 
     @Test
-    void givenEntryEntity_whenFromEntityToDtoIsCalled_thenEntryDtoIsMappedCorrectly() {
+    void givenRecordEntity_whenFromEntityToDtoIsCalled_thenRecordDtoIsMappedCorrectly() {
         // GIVEN
-        Entry entry = Entry.builder()
+        Record record = Record.builder()
                 .name(NAME_VALUE)
                 .number(NUMBER_VALUE)
                 .build();
 
         // WHEN
-        EntryDto result = entryMapper.fromEntityToDto(entry);
+        RecordDto result = recordMapper.fromEntityToDto(record);
 
         // THEN
         assertNotNull(result);
@@ -53,14 +53,14 @@ class EntryMapperTest {
     }
 
     @Test
-    void givenDataMapWithoutNumber_whenFromDtoToEntryIsCalled_thenNumberIsNull() {
+    void givenDataMapWithoutNumber_whenFromDtoToRecordIsCalled_thenNumberIsNull() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NAME_KEY, NAME_VALUE
         );
 
         // WHEN
-        Entry result = entryMapper.fromDtoToEntry(data);
+        Record result = recordMapper.fromDtoToRecord(data);
 
         // THEN
         assertNotNull(result);
@@ -69,14 +69,14 @@ class EntryMapperTest {
     }
 
     @Test
-    void givenDataMapWithoutName_whenFromDtoToEntryIsCalled_thenNameIsNull() {
+    void givenDataMapWithoutName_whenFromDtoToRecordIsCalled_thenNameIsNull() {
         // GIVEN
         Map<String, String> data = Map.of(
                 NUMBER_KEY, NUMBER_VALUE
         );
 
         // WHEN
-        Entry result = entryMapper.fromDtoToEntry(data);
+        Record result = recordMapper.fromDtoToRecord(data);
 
         // THEN
         assertNotNull(result);

@@ -2,20 +2,18 @@ package com.kacperkwiatkowski.digitalphonebook.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
-@Entity(name = "Entry")
+@Entity(name = "Record")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Entry {
+public class Record {
 
     @Id
     @GeneratedValue

@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PromptResponse {
 
-    private EntryDto entry;
+    private RecordDto record;
     private Operation operation;
     private String message;
 

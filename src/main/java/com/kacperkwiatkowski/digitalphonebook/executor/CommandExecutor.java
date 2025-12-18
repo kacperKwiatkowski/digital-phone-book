@@ -3,7 +3,7 @@ package com.kacperkwiatkowski.digitalphonebook.executor;
 import com.kacperkwiatkowski.digitalphonebook.dto.PromptResponse;
 import com.kacperkwiatkowski.digitalphonebook.dto.StructuredCommand;
 import com.kacperkwiatkowski.digitalphonebook.exception.InvalidPromptException;
-import com.kacperkwiatkowski.digitalphonebook.service.EntryServiceImpl;
+import com.kacperkwiatkowski.digitalphonebook.service.RecordServiceImpl;
 import com.kacperkwiatkowski.digitalphonebook.validator.PromptValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CommandExecutor {
 
-    private final EntryServiceImpl entryServiceImpl;
+    private final RecordServiceImpl recordServiceImpl;
     private final PromptValidator promptValidator;
 
     public PromptResponse execute(StructuredCommand cmd) {
@@ -22,17 +22,17 @@ public class CommandExecutor {
         promptValidator.isAnyOfTheDataValuesPresent(cmd.getData());
 
         return switch (cmd.getEntity()) {
-            case "Entry" -> executeUserCommand(cmd);
+            case "Record" -> executeUserCommand(cmd);
             default -> throw new InvalidPromptException("Unsupported command");
         };
     }
 
     private PromptResponse executeUserCommand(StructuredCommand cmd) {
         return switch (cmd.getOperation()) {
-            case CREATE -> entryServiceImpl.create(cmd.getData());
-            case READ -> entryServiceImpl.find(cmd.getData());
-            case UPDATE -> entryServiceImpl.update(cmd.getData());
-            case DELETE -> entryServiceImpl.delete(cmd.getData());
+            case CREATE -> recordServiceImpl.create(cmd.getData());
+            case READ -> recordServiceImpl.find(cmd.getData());
+            case UPDATE -> recordServiceImpl.update(cmd.getData());
+            case DELETE -> recordServiceImpl.delete(cmd.getData());
             default -> throw new IllegalArgumentException("Invalid operation");
         };
     }

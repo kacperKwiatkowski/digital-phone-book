@@ -1,7 +1,6 @@
 package com.kacperkwiatkowski.digitalphonebook.advisor;
 
-import com.kacperkwiatkowski.digitalphonebook.EntryApiTest;
-import com.kacperkwiatkowski.digitalphonebook.dto.EntryDto;
+import com.kacperkwiatkowski.digitalphonebook.RecordApiTest;
 import com.kacperkwiatkowski.digitalphonebook.dto.PromptRequest;
 import com.kacperkwiatkowski.digitalphonebook.dto.PromptResponse;
 import com.kacperkwiatkowski.digitalphonebook.enums.Operation;
@@ -11,15 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ControllerAdvisorTest extends EntryApiTest {
+class ControllerAdvisorTest extends RecordApiTest {
 
     private static final String WRONG_DATA = "Invalid data";
-    private static final String INCOMPLETE_DATA = "Create entry with name and number";
+    private static final String INCOMPLETE_DATA = "Create record with name and number";
 
     @Test
     @Order(1)
@@ -29,7 +26,7 @@ class ControllerAdvisorTest extends EntryApiTest {
                 .prompt(WRONG_DATA).build();
 
         // WHEN
-        EntityExchangeResult<PromptResponse> response = webTestClient.post().uri(ENTRY_SERVICE_BASE_MAPPING + ENTRY_CONTROLLER_MAPPING)
+        EntityExchangeResult<PromptResponse> response = webTestClient.post().uri(RECORD_SERVICE_BASE_MAPPING + RECORD_CONTROLLER_MAPPING)
                 .bodyValue(promptRequest)
                 .exchange()
                 .expectStatus()
@@ -50,7 +47,7 @@ class ControllerAdvisorTest extends EntryApiTest {
                 .prompt(INCOMPLETE_DATA).build();
 
         // WHEN
-        EntityExchangeResult<PromptResponse> response = webTestClient.post().uri(ENTRY_SERVICE_BASE_MAPPING + ENTRY_CONTROLLER_MAPPING)
+        EntityExchangeResult<PromptResponse> response = webTestClient.post().uri(RECORD_SERVICE_BASE_MAPPING + RECORD_CONTROLLER_MAPPING)
                 .bodyValue(promptRequest)
                 .exchange()
                 .expectStatus()

@@ -1,9 +1,9 @@
 package com.kacperkwiatkowski.digitalphonebook.repository;
 
-import com.kacperkwiatkowski.digitalphonebook.domain.Entry;
+import com.kacperkwiatkowski.digitalphonebook.domain.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EntryRepository extends JpaRepository<Entry, Long> {
+public interface RecordRepository extends JpaRepository<Record, Long> {
 
     boolean existsByName(String name);
 
@@ -13,7 +13,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
 
     long countByNumber(String number);
 
-    Entry findByNameOrNumber(String name, String number);
+    Record findByNameOrNumber(String name, String number);
 
     boolean existsByNameAndNumber(String name, String number);
 

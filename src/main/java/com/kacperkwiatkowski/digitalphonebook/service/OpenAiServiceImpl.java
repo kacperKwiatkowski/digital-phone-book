@@ -27,7 +27,7 @@ public class OpenAiServiceImpl implements OpenAiService {
                         Rules:
                         - Only return valid JSON
                         - Allowed operations: CREATE, READ, UPDATE, DELETE
-                        - Allowed entities: Entry
+                        - Allowed entities: Record
                         - Never explain anything
                         - Data keys should always be named "name" and "number"
                         - If a name or number is missing, put null value as default

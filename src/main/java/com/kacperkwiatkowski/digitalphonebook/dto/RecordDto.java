@@ -1,6 +1,5 @@
 package com.kacperkwiatkowski.digitalphonebook.dto;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 
 @Getter
@@ -8,8 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntryDto {
-//    private Long id;
+public class RecordDto {
     private String name;
     private String number;
 }

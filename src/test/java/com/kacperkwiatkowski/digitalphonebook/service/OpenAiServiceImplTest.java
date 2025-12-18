@@ -22,12 +22,12 @@ import static org.mockito.Mockito.when;
 class OpenAiServiceImplTest {
 
     private static final String PROMPT =
-            "Create entry for Joanna with number 22222222";
+            "Create record for Joanna with number 22222222";
 
     private static final String VALID_JSON_RESPONSE = """
             {
               "operation": "CREATE",
-              "entity": "Entry",
+              "entity": "Record",
               "data": {
                 "name": "Joanna",
                 "number": "22222222"
@@ -78,7 +78,7 @@ class OpenAiServiceImplTest {
         // THEN
         assertNotNull(result);
         assertEquals(Operation.CREATE, result.getOperation());
-        assertEquals("Entry", result.getEntity());
+        assertEquals("Record", result.getEntity());
         assertEquals("Joanna", result.getData().get("name"));
         assertEquals("22222222", result.getData().get("number"));
 

@@ -4,7 +4,7 @@ import com.kacperkwiatkowski.digitalphonebook.dto.PromptResponse;
 import com.kacperkwiatkowski.digitalphonebook.dto.StructuredCommand;
 import com.kacperkwiatkowski.digitalphonebook.enums.Operation;
 import com.kacperkwiatkowski.digitalphonebook.exception.InvalidPromptException;
-import com.kacperkwiatkowski.digitalphonebook.service.EntryServiceImpl;
+import com.kacperkwiatkowski.digitalphonebook.service.RecordServiceImpl;
 import com.kacperkwiatkowski.digitalphonebook.validator.PromptValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 class CommandExecutorTests {
 
     @Mock
-    private EntryServiceImpl entryServiceImpl;
+    private RecordServiceImpl recordServiceImpl;
 
     @Mock
     private PromptValidator promptValidator;
@@ -29,16 +29,16 @@ class CommandExecutorTests {
     private CommandExecutor commandExecutor;
 
     @Test
-    void givenValidCreateEntryCommand_whenExecuteIsCalled_thenEntryIsCreated() {
+    void givenValidCreateRecordCommand_whenExecuteIsCalled_thenRecordIsCreated() {
         // GIVEN
         Map<String, String> data = Map.of("name", "Joanna", "number", "22222222");
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.CREATE)
                 .data(data)
                 .build();
 
-        when(entryServiceImpl.create(data)).thenReturn(new PromptResponse());
+        when(recordServiceImpl.create(data)).thenReturn(new PromptResponse());
 
         // WHEN
         PromptResponse result = commandExecutor.execute(command);
@@ -47,71 +47,71 @@ class CommandExecutorTests {
         verify(promptValidator).isDataAvailable(command);
         verify(promptValidator).areKeysValid(data);
         verify(promptValidator).isAnyOfTheDataValuesPresent(data);
-        verify(entryServiceImpl).create(data);
+        verify(recordServiceImpl).create(data);
     }
 
     @Test
-    void givenValidReadEntryCommand_whenExecuteIsCalled_thenEntryIsRead() {
+    void givenValidReadRecordCommand_whenExecuteIsCalled_thenRecordIsRead() {
         // GIVEN
         Map<String, String> data = Map.of("name", "Joanna");
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.READ)
                 .data(data)
                 .build();
 
-        when(entryServiceImpl.find(data)).thenReturn(new PromptResponse());
+        when(recordServiceImpl.find(data)).thenReturn(new PromptResponse());
 
         // WHEN
         PromptResponse result = commandExecutor.execute(command);
 
         // THEN
-        verify(entryServiceImpl).find(data);
+        verify(recordServiceImpl).find(data);
     }
 
     @Test
-    void givenValidUpdateEntryCommand_whenExecuteIsCalled_thenEntryIsUpdated() {
+    void givenValidUpdateRecordCommand_whenExecuteIsCalled_thenRecordIsUpdated() {
         // GIVEN
         Map<String, String> data = Map.of("name", "Joanna", "number", "33333333");
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.UPDATE)
                 .data(data)
                 .build();
 
-        when(entryServiceImpl.update(data)).thenReturn(new PromptResponse());
+        when(recordServiceImpl.update(data)).thenReturn(new PromptResponse());
 
         // WHEN
         PromptResponse result = commandExecutor.execute(command);
 
         // THEN
-        verify(entryServiceImpl).update(data);
+        verify(recordServiceImpl).update(data);
     }
 
     @Test
-    void givenValidDeleteEntryCommand_whenExecuteIsCalled_thenEntryIsDeleted() {
+    void givenValidDeleteRecordCommand_whenExecuteIsCalled_thenRecordIsDeleted() {
         // GIVEN
         Map<String, String> data = Map.of("name", "Joanna");
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.DELETE)
                 .data(data)
                 .build();
 
-        when(entryServiceImpl.delete(data)).thenReturn(new PromptResponse());
+        when(recordServiceImpl.delete(data)).thenReturn(new PromptResponse());
 
         // WHEN
         PromptResponse result = commandExecutor.execute(command);
 
         // THEN
-        verify(entryServiceImpl).delete(data);
+        verify(recordServiceImpl).delete(data);
     }
 
     @Test
     void givenErrorOperation_whenExecuteIsCalled_thenIllegalArgumentExceptionIsThrown() {
         // GIVEN
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.ERROR)
                 .data(Map.of())
                 .build();
@@ -119,7 +119,7 @@ class CommandExecutorTests {
         // WHEN / THEN
         assertThrows(IllegalArgumentException.class, () -> commandExecutor.execute(command));
 
-        verifyNoInteractions(entryServiceImpl);
+        verifyNoInteractions(recordServiceImpl);
     }
 
     @Test
@@ -134,14 +134,14 @@ class CommandExecutorTests {
         // WHEN / THEN
         assertThrows(InvalidPromptException.class, () -> commandExecutor.execute(command));
 
-        verifyNoInteractions(entryServiceImpl);
+        verifyNoInteractions(recordServiceImpl);
     }
 
     @Test
     void givenValidatorFails_whenExecuteIsCalled_thenServiceIsNotInvoked() {
         // GIVEN
         StructuredCommand command = StructuredCommand.builder()
-                .entity("Entry")
+                .entity("Record")
                 .operation(Operation.CREATE)
                 .data(Map.of())
                 .build();
@@ -152,6 +152,6 @@ class CommandExecutorTests {
         // WHEN / THEN
         assertThrows(InvalidPromptException.class, () -> commandExecutor.execute(command));
 
-        verifyNoInteractions(entryServiceImpl);
+        verifyNoInteractions(recordServiceImpl);
     }
 }
