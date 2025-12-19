@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CommandExecutorTests {
+class CommandExecutorTest {
 
     @Mock
     private RecordServiceImpl recordServiceImpl;
@@ -41,7 +41,7 @@ class CommandExecutorTests {
         when(recordServiceImpl.create(data)).thenReturn(new PromptResponse());
 
         // WHEN
-        PromptResponse result = commandExecutor.execute(command);
+        commandExecutor.execute(command);
 
         // THEN
         verify(promptValidator).isDataAvailable(command);
@@ -63,7 +63,7 @@ class CommandExecutorTests {
         when(recordServiceImpl.find(data)).thenReturn(new PromptResponse());
 
         // WHEN
-        PromptResponse result = commandExecutor.execute(command);
+        commandExecutor.execute(command);
 
         // THEN
         verify(recordServiceImpl).find(data);
@@ -82,7 +82,7 @@ class CommandExecutorTests {
         when(recordServiceImpl.update(data)).thenReturn(new PromptResponse());
 
         // WHEN
-        PromptResponse result = commandExecutor.execute(command);
+        commandExecutor.execute(command);
 
         // THEN
         verify(recordServiceImpl).update(data);
@@ -101,7 +101,7 @@ class CommandExecutorTests {
         when(recordServiceImpl.delete(data)).thenReturn(new PromptResponse());
 
         // WHEN
-        PromptResponse result = commandExecutor.execute(command);
+        commandExecutor.execute(command);
 
         // THEN
         verify(recordServiceImpl).delete(data);

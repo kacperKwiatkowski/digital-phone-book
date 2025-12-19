@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(RecordController.class)
 class RecordControllerTest {
 
-
     private static final String CONTROLLER_MAPPING = "/record";
     private static final String GET_ALL_MAPPING = "/all";
 

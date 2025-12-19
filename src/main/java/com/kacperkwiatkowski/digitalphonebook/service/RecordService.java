@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface RecordService {
-    public PromptResponse create(Map<String, String> data);
-    public PromptResponse find(Map<String, String> data);
-    public PromptResponse update(Map<String, String> data);
-    public PromptResponse delete(Map<String, String> data);
-    public List<RecordDto> findAll();
+    PromptResponse create(Map<String, String> data);
+
+    PromptResponse find(Map<String, String> data);
+
+    PromptResponse update(Map<String, String> data);
+
+    PromptResponse delete(Map<String, String> data);
+
+    List<RecordDto> findAll();
 }
